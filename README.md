@@ -7,3 +7,6 @@ Training planner (beta) untuk lari, sepeda, renang, dan triathlon. Jadwal disesu
 - PWA: `manifest.webmanifest`, `sw.js`, `icons/`
 
 Dibuat oleh [@ur.chillguy](https://instagram.com/ur.chillguy).
+
+## Atribusi
+Foto gerakan latihan: [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) oleh yuhonas, lisensi Unlicense (domain publik). Gambar sudah dikecilkan ukurannya.

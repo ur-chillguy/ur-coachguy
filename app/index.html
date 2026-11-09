@@ -199,6 +199,11 @@ details.acc .body{padding:0 16px 16px}
 .sheet-img{background:#fff;display:grid;place-items:center;height:300px;border-bottom:1px solid var(--concrete)}
 .sheet-img img{max-width:100%;max-height:300px;object-fit:contain}
 .sheet-img svg{width:220px;height:220px}
+.flip{position:relative;display:block;width:100%;height:300px}
+.flip img{position:absolute;inset:0;margin:auto;max-width:100%;max-height:300px;width:auto;height:100%;object-fit:contain;left:0;right:0}
+.flip img.b{animation:flipb 2.4s ease-in-out infinite}
+@keyframes flipb{0%,35%{opacity:0}50%,85%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.flip img.b{animation:none;opacity:0}}
 .sheet .x{position:sticky;top:10px;float:right;margin:10px 10px -50px 0;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:rgba(43,48,54,.85);color:#fff;font-size:22px;line-height:1}
 .sheet-body{padding:16px 18px calc(24px + env(safe-area-inset-bottom))}
 .sheet-body h2{font-size:30px;margin:2px 0 4px}
@@ -358,6 +363,8 @@ details.opt summary{cursor:pointer;font-weight:500;color:var(--asphalt-2);paddin
 <div id="modal"></div>
 <script>
 const IMGS = {};
+const PHOTOS = ["band_er", "barbell_curl", "barbell_incline", "barbell_row", "barbell_shrug", "bounding", "butterfly", "cable_fly", "cable_lateral", "cable_row", "calf_str", "cat_cow", "chest_press", "chin_up", "close_grip_bench", "concentration_curl", "db_bench", "db_fly", "db_incline", "db_lateral", "db_ohp", "db_row", "db_shrug", "dead_bug", "dips", "face_pull", "figure4", "goblet_squat", "hack_squat", "hamstring_str", "hanging_leg_raise", "hip_flexor", "hip_thrust", "inverted_row", "lat_pulldown", "lat_str", "lateral_hop", "leg_extension", "leg_press", "lunges", "lying_leg_curl", "machine_ohp", "machine_row", "oh_triceps_cable", "oh_triceps_db", "pallof", "plate_incline", "push_up", "rdl", "reverse_butterfly", "reverse_db_fly", "reverse_pulldown", "seated_calf", "side_plank", "skull_crusher", "smith_calf", "smith_incline", "smith_ohp", "squat", "squat_jump", "standing_calf", "standing_leg_curl", "step_up", "tbar_row", "triceps_pushdown", "wgs"];
+const photoOf = (id) => (PUB && PHOTOS.includes(id)) ? `../img/ex/${id}` : '';
 const PUB = true;
 const LOGO_SVG = '<svg viewBox="0 0 30 24" aria-hidden="true"><path d="M4 3.5v9a7.5 7.5 0 0 0 15 0v-9" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/><circle cx="25.6" cy="19.2" r="2.8" fill="#FFC81E"/></svg>';
 const IG_URL = 'https://instagram.com/ur.chillguy';
@@ -2508,7 +2515,7 @@ const PH = { Kaki: 'M30 78h40M50 22v26M50 48l-12 30M50 48l12 30M38 34h24', Pungg
 function ph(g) {
   return `<svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="#F4F6F7"/><circle cx="50" cy="18" r="0"/><path d="${PH[g] || PH.Core}" stroke="#9AA3AB" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="50" y="94" text-anchor="middle" font-size="9" fill="#7A828A" font-family="Barlow, sans-serif">belum ada gambar</text></svg>`;
 }
-const thumb = (id) => { const e = EX[id]; return `<span class="thumb">${e && e.img && IMGS[e.img] ? `<img src="${IMGS[e.img]}" alt="" loading="lazy">` : ph(e ? e.g : '')}</span>`; };
+const thumb = (id) => { const e = EX[id]; const ph0 = photoOf(id); return `<span class="thumb">${e && e.img && IMGS[e.img] ? `<img src="${IMGS[e.img]}" alt="" loading="lazy">` : ph0 ? `<img src="${ph0}-0.jpg" alt="" loading="lazy">` : ph(e ? e.g : '')}</span>`; };
 
 /* ===================== welcome ===================== */
 function vWelcome() {
@@ -2589,9 +2596,9 @@ const CREDITS = [
   ['Jadwal custom', ['Kamu menentukan olahraga di tiap hari; aplikasi menentukan jenis sesi, durasi, dan intensitasnya.', 'Sesi berat dijauhkan dari sesi berat lain dan dari hari sebelum long run.', 'Saat sesi dipindah atau ditukar, jenis dan intensitasnya tidak berubah.'], ''],
   ['Pace, watt, dan zona HR', ['Pace lari: VDOT, rumus Daniels & Gilbert.', 'Zona HR: Karvonen atau LTHR (Friel); HR max dari rumus Tanaka.', 'Zona watt: Coggan, dari FTP.', 'Pace renang: CSS dari tes 400 m dan 200 m.', 'Persentase waktu di tiap zona adalah perkiraan dari struktur sesi. HR butuh sekitar satu menit untuk menyusul usaha, jadi repetisi pendek lebih banyak tercatat di zona di bawah target. Di renang, HR kurang bisa diandalkan; pakai pace dan RPE.'], 'Model sebaran zona ini aturan praktis, bukan hasil riset.'],
   ['Strength', ['Latihan beban berat 2–3× per minggu memperbaiki ekonomi lari dan performa sepeda pada atlet endurance (Rønnestad & Mujika, 2014; Beattie dkk., 2014).', ...(PUB ? [] : ['Gerakan yang tidak ada di panduan TITAN belum punya gambar.'])], ''],
-  ['Sumber program', ['TITAN Challenge 2024 oleh 2NineFit (Bobby Ida).', PUB ? 'Ketuk gerakan untuk melihat cara melakukan dan alternatifnya.' : 'Ketuk gerakan untuk melihat gambar, cara melakukan, dan alternatifnya.'], ''],
+  ['Sumber program', ['TITAN Challenge 2024 oleh 2NineFit (Bobby Ida).', PUB ? 'Ketuk gerakan untuk melihat foto, cara melakukan, dan alternatifnya.' : 'Ketuk gerakan untuk melihat gambar, cara melakukan, dan alternatifnya.'], ''],
   ['Makro dan energi', ['BMR: Mifflin-St Jeor, atau Katch-McArdle kalau % lemak diisi.', 'Aktivitas harian: faktor 1,4–1,8.', 'Kalori latihan: MET dari Compendium of Physical Activities × berat × durasi.', 'Karbo per kg mengikuti beban latihan (ACSM/AND/DC 2016): 3–5 g istirahat, 5–7 g sekitar 1 jam, 6–10 g untuk 1–3 jam, 8–12 g di atas 4 jam.', 'Protein 2,0 g/kg untuk semua tujuan, +0,2 di usia 50+. Manfaat rata-rata untuk massa otot mulai mendatar di sekitar 1,6 g/kg (Morton dkk., 2018); 2,0 g/kg ada di ujung atas rentang 1,4–2,0 g/kg yang disarankan ISSN (Jäger dkk., 2017).', 'Lemak minimal 20% energi.', 'Energi tersisa untuk tubuh dijaga minimal 30 kkal per kg massa bebas lemak (risiko RED-S).', 'Koreksi mingguan memakai tren berat rata-rata 7 hari.'], 'Prototipe ini bukan pengganti ahli gizi.'],
-  PUB ? ['Catatan beta', ['Versi ini masih beta dan gratis. Ilustrasi gerakan sedang disiapkan.', 'Data latihanmu hanya tersimpan di browser perangkat ini.'], 'Program ini bukan pengganti saran dokter. Kalau ada keluhan kesehatan, konsultasikan dulu sebelum menaikkan intensitas.'] : ['Catatan prototipe', ['Gambar latihan diambil dari panduan TITAN Challenge 2024 (2NineFit) dan ilustrasi pihak ketiga di dalamnya, jadi file ini tidak untuk dipublikasikan.'], ''],
+  PUB ? ['Catatan beta', ['Versi ini masih beta dan gratis. Foto gerakan berasal dari Free Exercise DB (domain publik, oleh yuhonas); gerakan yang belum ada fotonya memakai ikon sederhana. Video peragaan sedang disiapkan.', 'Data latihanmu hanya tersimpan di browser perangkat ini.'], 'Program ini bukan pengganti saran dokter. Kalau ada keluhan kesehatan, konsultasikan dulu sebelum menaikkan intensitas.'] : ['Catatan prototipe', ['Gambar latihan diambil dari panduan TITAN Challenge 2024 (2NineFit) dan ilustrasi pihak ketiga di dalamnya, jadi file ini tidak untuk dipublikasikan.'], ''],
 ];
 let crRAF = 0;
 function closeCredits() { cancelAnimationFrame(crRAF); const c = document.getElementById('credits'); if (c) c.remove(); document.body.style.overflow = S.modal ? 'hidden' : ''; const b = document.querySelector('[data-act="credits"]'); if (b) b.focus(); }
@@ -2981,7 +2988,8 @@ function mEx() {
   const e = EX[S.modal.id]; if (!e) return '';
   const why = e.w ? Object.entries(e.w).filter(([k]) => S.p.sports[k]) : [];
   const alts = (S.modal.alts || []).filter((a) => EX[a]);
-  return `<div class="sheet-img">${e.img && IMGS[e.img] ? `<img src="${IMGS[e.img]}" alt="Ilustrasi ${esc(e.n)}">` : ph(e.g)}</div>
+  const ph0 = photoOf(S.modal.id);
+  return `<div class="sheet-img">${e.img && IMGS[e.img] ? `<img src="${IMGS[e.img]}" alt="Ilustrasi ${esc(e.n)}">` : ph0 ? `<span class="flip"><img src="${ph0}-0.jpg" alt="Posisi awal ${esc(e.n)}"><img class="b" src="${ph0}-1.jpg" alt="Posisi akhir ${esc(e.n)}"></span>` : ph(e.g)}</div>
     <div class="sheet-body">
       <p class="small muted">${esc(e.g)}</p>
       <h2 id="mh">${esc(e.n)}</h2>
@@ -2991,7 +2999,7 @@ function mEx() {
       <h3>Hindari</h3><p>${esc(e.x)}</p>
       ${why.length ? `<h3>Kenapa penting untukmu</h3><ul>${why.map(([k, t]) => `<li><b>${SP[k].n}:</b> ${esc(t)}</li>`).join('')}</ul>` : ''}
       ${alts.length ? `<h3>Alternatif</h3><div class="chips">${alts.map((a) => `<button type="button" class="chip" data-act="ex" data-id="${a}" data-rx="${esc(S.modal.rx || '')}" data-alts="${esc([S.modal.id, ...alts.filter((x) => x !== a)].join(','))}">${esc(EX[a].n)}</button>`).join('')}</div>` : ''}
-      <p class="credit">${e.img && IMGS[e.img] ? 'Gambar: panduan TITAN Challenge 2024 (2NineFit) beserta sumber ilustrasinya. Hanya untuk prototipe pribadi.' : 'Ilustrasi gerakan menyusul.'}</p>
+      <p class="credit">${e.img && IMGS[e.img] ? 'Gambar: panduan TITAN Challenge 2024 (2NineFit) beserta sumber ilustrasinya. Hanya untuk prototipe pribadi.' : ph0 ? 'Foto: Free Exercise DB (domain publik). Variasi di foto bisa sedikit beda dari yang dimaksud; ikuti petunjuk tertulis.' : 'Ilustrasi gerakan menyusul.'}</p>
     </div>`;
 }
 function renderModal(keep) {
